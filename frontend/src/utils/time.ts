@@ -32,3 +32,9 @@ export const daysAgo = (n: number) => {
   d.setDate(d.getDate() - n)
   return d.toISOString().slice(0, 10)
 }
+
+/** Return the 1st of the current month as "YYYY-MM-DD" */
+export const firstOfMonth = () => {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`
+}

@@ -23,11 +23,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Customer Support Dashboard API", lifespan=lifespan)
 
-# CORS — allow all origins in dev; restrict to FRONTEND_ORIGIN in production
+# CORS — allow all origins in dev; restrict to comma-separated FRONTEND_ORIGINS in production
 origins = (
     ["*"]
     if settings.environment.lower() == "development"
-    else [settings.frontend_origin]
+    else [o.strip() for o in settings.frontend_origins.split(",") if o.strip()]
 )
 
 app.add_middleware(

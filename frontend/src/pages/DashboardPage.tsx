@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { Search } from 'lucide-react'
+import { Loader2, Search } from 'lucide-react'
 import { useState } from 'react'
 import { getAgentAnalytics, getOverallAnalytics } from '../api/calls'
 import AgentTable from '../components/dashboard/AgentTable'
@@ -68,10 +68,18 @@ export default function DashboardPage() {
           <button type="submit" disabled={isLoading}
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 disabled:cursor-not-allowed text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
             <Search size={14} />
-            {isLoading ? 'Loading…' : 'Search'}
+            Search
           </button>
         </div>
       </form>
+
+      {/* Loading indicator — separate from the button so button always says Search */}
+      {isLoading && (
+        <div className="flex items-center gap-2 text-gray-400 text-sm">
+          <Loader2 size={14} className="animate-spin" />
+          Loading data…
+        </div>
+      )}
 
       {errOverall && (
         <p className="text-red-400 text-sm">Failed to load analytics. Is the backend running?</p>

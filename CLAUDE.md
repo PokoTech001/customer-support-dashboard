@@ -22,8 +22,39 @@ A 2-page internal web app for customer support training.
 - TTS credentials live in backend/.env only (never frontend)
 
 ## Current Phase
-Phase 2 complete — Full app built and deployed (backend on Render, frontend on Vercel)
-Both pages working locally. Gemini analyze endpoints pending valid API key test.
+Phase 2 complete — Full app live on Render + Vercel. Both pages verified working in production.
+
+## Deployment Status
+| Service  | Platform | Status |
+|----------|----------|--------|
+| Backend  | Render   | Live — FastAPI docs confirmed working |
+| Frontend | Vercel   | Live — Dashboard and Transcript pages confirmed working |
+
+**Safe revert point:** commit `f9d3b55`
+To revert: `git revert f9d3b55` or `git reset --hard f9d3b55`
+
+### What was built (completed)
+- [x] TTS client — auth, auto-refresh, CDR pagination, exponential backoff
+- [x] Aggregator — overall KPIs, hourly/daily charts, per-agent metrics
+- [x] `/api/calls/overall` and `/api/calls/agent` endpoints
+- [x] Recording cache — short-lived server-side store, TTL 10 min
+- [x] `/api/recordings/search` — search CDRs, populate cache
+- [x] `/api/recordings/{call_id}/audio` — stream audio, Range request support
+- [x] Gemini client — transcribe-only + full analysis, inline/File API, timestamp normalisation
+- [x] `/api/analyze/transcribe`, `/api/analyze/from-recording`, `/api/analyze/upload`
+- [x] React frontend — Dashboard page (KPIs, hourly/daily charts, agent table)
+- [x] React frontend — Transcript page (recordings table, Spotify-style curtain, audio sync)
+- [x] CORS fix — `FRONTEND_ORIGINS` comma-separated, `["*"]` in dev
+- [x] Local deployment verified working end-to-end
+- [x] Render + Vercel production deployment verified working
+
+### What to do next (v2)
+- [ ] Test `/api/analyze/transcribe` and `/api/analyze/from-recording` in production with valid Gemini API key
+- [ ] Add date range quick-select presets (Today / Last 7 days / This month) to Dashboard
+- [ ] Reduce dashboard latency — see Future Improvements section below
+- [ ] Add agent filter dropdown to Transcript search (currently free-text only)
+- [ ] Add `/api/agents/list` endpoint (router stub exists in schemas.py)
+- [ ] Error boundary on frontend — graceful fallback if backend goes cold on Render (free tier spins down)
 
 ## Important Constraints
 1. TTS auth token expires every 3600s — must auto-refresh

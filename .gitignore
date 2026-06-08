@@ -4,4 +4,9 @@ frontend/.env
 __pycache__/
 node_modules/
 .venv/
-dist/
+dist/\]
+snapshots/
+docs/
+CLAUDE_CODE_SETUP_GUIDE.md
+CLAUDE.md
+tts_api_download.py
